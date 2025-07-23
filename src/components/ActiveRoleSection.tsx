@@ -81,12 +81,18 @@ export function ActiveRoleSection() {
                       Last active {role.lastActive}
                     </div>
                     <div className="flex gap-3 text-xs">
-                      <button className="text-[#7F56D9] font-medium hover:underline cursor-pointer">
+                      <Button
+                        variant="link"
+                        className="text-[#7F56D9] p-0 h-max cursor-pointer"
+                      >
                         Set as default
-                      </button>
-                      <button className="text-[#7F56D9] font-medium hover:underline cursor-pointer">
+                      </Button>
+                      <Button
+                        variant="link"
+                        className="text-[#7F56D9] p-0 h-max cursor-pointer"
+                      >
                         Edit
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
