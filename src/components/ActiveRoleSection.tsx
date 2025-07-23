@@ -83,7 +83,12 @@ export function ActiveRoleSection() {
                     <div className="flex gap-3 text-xs">
                       <Button
                         variant="link"
-                        className="text-[#7F56D9] p-0 h-max cursor-pointer"
+                        className={cn(
+                          "p-0 h-max cursor-pointer",
+                          isSelected
+                            ? "text-[#7F56D9]"
+                            : "text-muted-foreground"
+                        )}
                       >
                         Set as default
                       </Button>

@@ -75,14 +75,7 @@ export const columns: ColumnDef<User>[] = [
       const isActive = row.original?.status === "Active";
 
       return (
-        <Badge
-          variant={isActive ? "default" : "destructive"}
-          className={
-            row.original.status === "Active"
-              ? "bg-green-100 text-green-700 border-green-100"
-              : "bg-orange-100 text-orange-700 border-orange-100"
-          }
-        >
+        <Badge variant={isActive ? "success" : "pending"} className="w-max">
           {isActive && <Check />}
           {row.original?.status}
         </Badge>
@@ -130,4 +123,4 @@ export const columns: ColumnDef<User>[] = [
     ),
     size: 32,
   },
-]; 
+];
