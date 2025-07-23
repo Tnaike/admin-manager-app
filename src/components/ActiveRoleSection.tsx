@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { Users, Plus } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import Checked from "@/assets/checked.svg";
 import Unchecked from "@/assets/unchecked.svg";
 

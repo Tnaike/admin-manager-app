@@ -16,8 +16,8 @@ import {
   type ColumnDef,
 } from "@tanstack/react-table";
 import { ArrowDown, Check, DownloadCloud } from "lucide-react";
-import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export type User = {
   id: string;
@@ -26,7 +26,6 @@ export type User = {
   date: string;
   status: "Active" | "In Active";
   users: { name: string; src: string }[];
-  usersExtra: number;
 };
 
 const userRoles: User[] = [
@@ -41,8 +40,9 @@ const userRoles: User[] = [
       { name: "Ben", src: "https://randomuser.me/api/portraits/men/2.jpg" },
       { name: "Cara", src: "https://randomuser.me/api/portraits/women/3.jpg" },
       { name: "Dan", src: "https://randomuser.me/api/portraits/men/4.jpg" },
+      { name: "Jack", src: "https://randomuser.me/api/portraits/men/10.jpg" },
+      { name: "Mia", src: "https://randomuser.me/api/portraits/women/13.jpg" },
     ],
-    usersExtra: 2,
   },
   {
     id: "bhqecj4p",
@@ -54,8 +54,9 @@ const userRoles: User[] = [
       { name: "Eve", src: "https://randomuser.me/api/portraits/women/5.jpg" },
       { name: "Finn", src: "https://randomuser.me/api/portraits/men/6.jpg" },
       { name: "Gina", src: "https://randomuser.me/api/portraits/women/7.jpg" },
+      { name: "Mia", src: "https://randomuser.me/api/portraits/women/13.jpg" },
+      { name: "Quinn", src: "https://randomuser.me/api/portraits/men/17.jpg" },
     ],
-    usersExtra: 1,
   },
   {
     id: "cwrecj4p",
@@ -68,7 +69,6 @@ const userRoles: User[] = [
       { name: "Ivy", src: "https://randomuser.me/api/portraits/women/9.jpg" },
       { name: "Jack", src: "https://randomuser.me/api/portraits/men/10.jpg" },
     ],
-    usersExtra: 0,
   },
   {
     id: "3u1reuv4",
@@ -80,7 +80,6 @@ const userRoles: User[] = [
       { name: "Kim", src: "https://randomuser.me/api/portraits/women/11.jpg" },
       { name: "Leo", src: "https://randomuser.me/api/portraits/men/12.jpg" },
     ],
-    usersExtra: 0,
   },
   {
     id: "26qweuv4",
@@ -92,7 +91,6 @@ const userRoles: User[] = [
       { name: "Mia", src: "https://randomuser.me/api/portraits/women/13.jpg" },
       { name: "Ned", src: "https://randomuser.me/api/portraits/men/14.jpg" },
     ],
-    usersExtra: 0,
   },
   {
     id: "m5gr84i9",
@@ -104,7 +102,6 @@ const userRoles: User[] = [
       { name: "Ola", src: "https://randomuser.me/api/portraits/men/15.jpg" },
       { name: "Pam", src: "https://randomuser.me/api/portraits/women/16.jpg" },
     ],
-    usersExtra: 0,
   },
   {
     id: "hqm5gr82",
@@ -116,7 +113,6 @@ const userRoles: User[] = [
       { name: "Quinn", src: "https://randomuser.me/api/portraits/men/17.jpg" },
       { name: "Rae", src: "https://randomuser.me/api/portraits/women/18.jpg" },
     ],
-    usersExtra: 0,
   },
 ];
 
@@ -197,24 +193,29 @@ const columns: ColumnDef<User>[] = [
   {
     accessorKey: "users",
     header: "Role users",
-    cell: ({ row }) => (
-      <div className="flex items-center -space-x-2">
-        {row.original?.users.slice(0, 4).map((user, idx) => (
-          <Avatar
-            key={`${user?.name ?? "user"}-${idx}`}
-            className="border-2 border-white shadow-sm"
-          >
-            <AvatarImage src={user?.src} alt={user?.name} />
-            <AvatarFallback>{user?.name[0]}</AvatarFallback>
-          </Avatar>
-        ))}
-        {row.original?.usersExtra > 0 && (
-          <Avatar className="flex items-center justify-center text-[#475467] bg-[#F9FAFB] border-2 border-white shadow-sm">
-            +{row.original?.usersExtra}
-          </Avatar>
-        )}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const users = row.original?.users || [];
+      const extraCount = users?.length > 4 ? users?.length - 4 : 0;
+
+      return (
+        <div className="flex items-center -space-x-2">
+          {users.slice(0, 4).map((user, idx) => (
+            <Avatar
+              key={`${user?.name ?? "user"}-${idx}`}
+              className="border-2 border-white shadow-sm"
+            >
+              <AvatarImage src={user?.src} alt={user?.name} />
+              <AvatarFallback>{user?.name[0]}</AvatarFallback>
+            </Avatar>
+          ))}
+          {extraCount > 0 && (
+            <Avatar className="flex items-center justify-center text-[#475467] bg-[#F9FAFB] border-2 border-white shadow-sm">
+              +{extraCount}
+            </Avatar>
+          )}
+        </div>
+      );
+    },
   },
   {
     id: "actions",
