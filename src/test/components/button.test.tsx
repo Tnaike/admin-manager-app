@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { test, expect, vi } from "vitest";
 import React from "react";
-import { Button } from "../../components/ui/button";
+import { Button } from "@/components/ui/button";
 
 test("should renders button and handles click", async () => {
   const user = userEvent.setup();
