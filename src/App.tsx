@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <main className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden bg-gray-50 py-8 sm:px-8">
+      <main className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden bg-gray-50 py-8 sm:px-8 max-md:mt-14">
         <div className="w-full">
           <DashboardHeader
             title="Settings"

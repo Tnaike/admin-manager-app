@@ -17,6 +17,7 @@ import Logo from "@/assets/logo.svg";
 import { NewFeaturesCard } from "@/components/layout/NewFeaturesCard";
 import Logout from "./Logout";
 import { useUsers } from "@/hooks/user";
+import { Button } from "@/components/ui/button";
 
 const menu = [
   { label: "Home", icon: Home },
@@ -43,9 +44,9 @@ export function Sidebar() {
           <img src={Logo} alt="Logo" className="w-8 h-8 rounded-lg" />
           <span className="font-semibold text-lg">Admin Manager</span>
         </div>
-        <button onClick={() => setIsOpen(true)} aria-label="Open sidebar">
-          <Text className="w-7 h-7" />
-        </button>
+        <Button variant="ghost" onClick={() => setIsOpen(true)}>
+          <Text className="size-6" />
+        </Button>
       </div>
       {/* Sidebar overlay for mobile */}
       {isOpen && (
@@ -58,13 +59,13 @@ export function Sidebar() {
           {/* Sidebar drawer */}
           <aside className="relative w-72 h-full bg-white border-r flex flex-col justify-between min-h-screen px-4 py-8 animate-slide-in-left">
             {/* Close button */}
-            <button
-              className="absolute top-4 right-4 md:hidden"
+            <Button
+              variant="ghost"
+              className="absolute top-3 right-4 md:hidden"
               onClick={() => setIsOpen(false)}
-              aria-label="Close sidebar"
             >
-              <X className="w-6 h-6" />
-            </button>
+              <X className="size-6" />
+            </Button>
             {/* Logo and App Name */}
             <div className="flex items-center gap-2 mb-6">
               <img src={Logo} alt="Logo" className="w-8 h-8 rounded-lg" />
