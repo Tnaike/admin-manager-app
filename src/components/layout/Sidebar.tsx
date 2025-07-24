@@ -38,7 +38,7 @@ export function Sidebar() {
   return (
     <>
       {/* Top bar for mobile */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b">
+      <div className="md:hidden fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-3 bg-white border-b">
         <div className="flex items-center gap-2">
           <img src={Logo} alt="Logo" className="w-8 h-8 rounded-lg" />
           <span className="font-semibold text-lg">Admin Manager</span>

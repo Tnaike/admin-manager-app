@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { RoleRadioGroup } from "./RoleRadioGroup";
 import { useUsers } from "@/hooks/user";
 import { formatDate } from "@/lib/utils";
+import { Loader } from "@/components/ui/loader";
 
 export function ActiveRoleSection() {
   const [selected, setSelected] = useState("");
@@ -22,7 +23,7 @@ export function ActiveRoleSection() {
     }
   }, [user]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (!user?.usersRole?.length) return <div>No roles found</div>;
 
   const roles = user.usersRole.map((role) => ({
