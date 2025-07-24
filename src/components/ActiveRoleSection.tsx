@@ -1,29 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RoleRadioGroup, type Role } from "./RoleRadioGroup";
-
-const roles: Role[] = [
-  {
-    value: "superadmin",
-    label: "Superadmin",
-    lastActive: "06/2023",
-    defaultChecked: true,
-  },
-  {
-    value: "developeradmin",
-    label: "Developeradmin",
-    lastActive: "01/2023",
-  },
-  {
-    value: "supportadmin",
-    label: "Supportadmin",
-    lastActive: "10/2022",
-  },
-];
+import { RoleRadioGroup } from "./RoleRadioGroup";
+import { useUsers } from "@/hooks/user";
+import { formatDate } from "@/lib/utils";
 
 export function ActiveRoleSection() {
-  const [selected, setSelected] = useState("superadmin");
+  const [selected, setSelected] = useState("");
+
+  const { data: userData = [], isLoading } = useUsers();
+  const user = userData[0];
+
+  useEffect(() => {
+    if (user?.usersRole?.length) {
+      const activeRole = user.usersRole.find(
+        (role) => role.status === "Active"
+      );
+      if (activeRole) {
+        setSelected(activeRole.role);
+      }
+    }
+  }, [user]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!user?.usersRole?.length) return <div>No roles found</div>;
+
+  const roles = user.usersRole.map((role) => ({
+    value: role.role,
+    label: role.role,
+    lastActive: role.updatedAt
+      ? formatDate(role.updatedAt, "monthYear")
+      : "N/A",
+    defaultChecked: role.status === "Active",
+  }));
 
   return (
     <section className="flex gap-3 md:gap-8 mb-8 max-sm:flex-col">

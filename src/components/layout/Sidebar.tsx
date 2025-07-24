@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import Logo from "@/assets/logo.svg";
 import { NewFeaturesCard } from "@/components/layout/NewFeaturesCard";
 import Logout from "./Logout";
+import { useUsers } from "@/hooks/user";
 
 const menu = [
   { label: "Home", icon: Home },
@@ -30,6 +31,9 @@ const menu = [
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: userRoles = [] } = useUsers();
+  const { email, name, photo } = userRoles[0] || {};
 
   return (
     <>
@@ -98,8 +102,7 @@ export function Sidebar() {
               {/* New Features Card */}
               <NewFeaturesCard />
             </div>
-            {/* Logout User Profile */}
-            <Logout />
+            <Logout name={name} email={email} photo={photo} />
           </aside>
         </div>
       )}
@@ -145,7 +148,7 @@ export function Sidebar() {
           </div>
         </div>
         {/* Logout User Profile */}
-        <Logout />
+        <Logout name={name} email={email} photo={photo} />
       </aside>
     </>
   );

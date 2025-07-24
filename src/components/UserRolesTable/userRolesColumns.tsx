@@ -6,18 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { type ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/lib/utils";
+import type { Role } from "@/hooks/user/type";
 
-export type User = {
-  id: string;
-  name: string;
-  type: "DEFAULT" | "CUSTOM" | "SYSTEM-CUSTOM";
-  createdAt: string;
-  updatedAt: string;
-  status: "Active" | "In Active";
-  users: { name: string; src: string }[];
-};
-
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Role>[] = [
   {
     id: "select",
     header: ({ table }) => (

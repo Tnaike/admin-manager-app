@@ -12,7 +12,7 @@ export function DashboardHeader({ title, subtitle }: DashboardHeaderProps) {
         {title}
       </h2>
       {subtitle && (
-        <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>
+        <p className="sm:text-sm text-muted-foreground">{subtitle}</p>
       )}
     </div>
   );

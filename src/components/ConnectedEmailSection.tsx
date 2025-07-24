@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Mail } from "lucide-react";
+import { useUsers } from "@/hooks/user";
 
 export function ConnectedEmailSection() {
   const [value, setValue] = useState("alternative");
+
+  const { data: userRoles = [] } = useUsers();
+
+  const userEmail = userRoles[0]?.email || "";
 
   return (
     <section className="flex gap-3 md:gap-8 mb-6 max-sm:flex-col">
@@ -24,9 +29,7 @@ export function ConnectedEmailSection() {
             <RadioGroupItem value="account" id="account-email" />
             <div className="flex flex-col">
               <span className="text-sm font-medium">My account email</span>
-              <span className="text-xs text-muted-foreground">
-                james.smith@gmail.com
-              </span>
+              <span className="text-xs text-muted-foreground">{userEmail}</span>
             </div>
           </label>
           <label className="flex items-start gap-2 cursor-pointer">
