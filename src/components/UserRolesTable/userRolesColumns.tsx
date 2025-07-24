@@ -5,12 +5,14 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { type ColumnDef } from "@tanstack/react-table";
+import { formatDate } from "@/lib/utils";
 
 export type User = {
   id: string;
   name: string;
   type: "DEFAULT" | "CUSTOM" | "SYSTEM-CUSTOM";
-  date: string;
+  createdAt: string;
+  updatedAt: string;
   status: "Active" | "In Active";
   users: { name: string; src: string }[];
 };
@@ -52,7 +54,9 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.original?.name}</div>,
+    cell: ({ row }) => (
+      <div className="text-sm font-medium">{row.original?.name}</div>
+    ),
   },
   {
     accessorKey: "type",
@@ -64,9 +68,13 @@ export const columns: ColumnDef<User>[] = [
     ),
   },
   {
-    accessorKey: "date",
+    accessorKey: "createdAt",
     header: "Date created",
-    cell: ({ row }) => <span className="text-xs">{row.original?.date}</span>,
+    cell: ({ row }) => (
+      <span className="text-xs">
+        {formatDate(row.original?.createdAt, "fullDate")}
+      </span>
+    ),
   },
   {
     accessorKey: "status",

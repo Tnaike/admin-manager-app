@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
-import { Users, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Checked from "@/assets/checked.svg";
-import Unchecked from "@/assets/unchecked.svg";
+import { RoleRadioGroup, type Role } from "./RoleRadioGroup";
 
-const roles = [
+const roles: Role[] = [
   {
     value: "superadmin",
     label: "Superadmin",
@@ -38,79 +35,11 @@ export function ActiveRoleSection() {
       </div>
 
       <div className="flex flex-col flex-1 gap-4">
-        <RadioGroup
-          value={selected}
-          onValueChange={setSelected}
-          className="flex flex-col gap-4"
-        >
-          {roles.map((role) => {
-            const isSelected = selected === role.value;
-
-            return (
-              <label
-                key={role.value}
-                className={cn(
-                  "flex items-start gap-4 border rounded-xl p-4 cursor-pointer transition-all",
-                  isSelected
-                    ? "border-[#D6BBFB] bg-[#F9F5FF] shadow-sm"
-                    : "border-[#EAECF0] bg-white"
-                )}
-              >
-                <RadioGroupItem value={role.value} className="mt-1 hidden" />
-
-                <div className="flex items-start gap-3 flex-1">
-                  <span className="bg-white border border-[#F2F4F7] text-[#667085] rounded-md p-2 px-3">
-                    <Users className="w-6 h-6" />
-                  </span>
-
-                  <div>
-                    <div
-                      className={cn(
-                        "text-sm font-medium mb-1",
-                        isSelected && "text-[#7F56D9]"
-                      )}
-                    >
-                      {role.label}
-                    </div>
-                    <div
-                      className={cn(
-                        "text-xs mb-1",
-                        isSelected ? "text-[#7F56D9]" : "text-muted-foreground"
-                      )}
-                    >
-                      Last active {role.lastActive}
-                    </div>
-                    <div className="flex gap-3 text-xs">
-                      <Button
-                        variant="link"
-                        className={cn(
-                          "p-0 h-max cursor-pointer",
-                          isSelected
-                            ? "text-[#7F56D9]"
-                            : "text-muted-foreground"
-                        )}
-                      >
-                        Set as default
-                      </Button>
-                      <Button
-                        variant="link"
-                        className="text-[#7F56D9] p-0 h-max cursor-pointer"
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                <img
-                  src={isSelected ? Checked : Unchecked}
-                  alt="Checked state icon"
-                  className="size-4"
-                />
-              </label>
-            );
-          })}
-        </RadioGroup>
+        <RoleRadioGroup
+          roles={roles}
+          selected={selected}
+          onChange={setSelected}
+        />
 
         <Button
           variant="link"
