@@ -11,9 +11,7 @@ export function DashboardHeader({ title, subtitle }: DashboardHeaderProps) {
       <h2 className="text-xl sm:text-3xl font-medium text-[#101828] mb-1">
         {title}
       </h2>
-      {subtitle && (
-        <p className="sm:text-sm text-muted-foreground">{subtitle}</p>
-      )}
+      {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
     </div>
   );
 }
