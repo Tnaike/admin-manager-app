@@ -14,102 +14,19 @@ import {
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import { columns, type User } from "./userRolesColumns";
-
-const userRoles: User[] = [
-  {
-    id: "5kma53ae",
-    name: "Superadmin",
-    type: "DEFAULT",
-    date: "Jan 1, 2023",
-    status: "Active",
-    users: [
-      { name: "Ava", src: "https://randomuser.me/api/portraits/women/1.jpg" },
-      { name: "Ben", src: "https://randomuser.me/api/portraits/men/2.jpg" },
-      { name: "Cara", src: "https://randomuser.me/api/portraits/women/3.jpg" },
-      { name: "Dan", src: "https://randomuser.me/api/portraits/men/4.jpg" },
-      { name: "Jack", src: "https://randomuser.me/api/portraits/men/10.jpg" },
-      { name: "Mia", src: "https://randomuser.me/api/portraits/women/13.jpg" },
-    ],
-  },
-  {
-    id: "bhqecj4p",
-    name: "Merchantadmin",
-    type: "DEFAULT",
-    date: "Feb 1, 2023",
-    status: "Active",
-    users: [
-      { name: "Eve", src: "https://randomuser.me/api/portraits/women/5.jpg" },
-      { name: "Finn", src: "https://randomuser.me/api/portraits/men/6.jpg" },
-      { name: "Gina", src: "https://randomuser.me/api/portraits/women/7.jpg" },
-      { name: "Mia", src: "https://randomuser.me/api/portraits/women/13.jpg" },
-      { name: "Quinn", src: "https://randomuser.me/api/portraits/men/17.jpg" },
-    ],
-  },
-  {
-    id: "cwrecj4p",
-    name: "supportadmin",
-    type: "DEFAULT",
-    date: "Feb 1, 2023",
-    status: "Active",
-    users: [
-      { name: "Hank", src: "https://randomuser.me/api/portraits/men/8.jpg" },
-      { name: "Ivy", src: "https://randomuser.me/api/portraits/women/9.jpg" },
-      { name: "Jack", src: "https://randomuser.me/api/portraits/men/10.jpg" },
-    ],
-  },
-  {
-    id: "3u1reuv4",
-    name: "sales personnel",
-    type: "CUSTOM",
-    date: "Mar 1, 2023",
-    status: "Active",
-    users: [
-      { name: "Kim", src: "https://randomuser.me/api/portraits/women/11.jpg" },
-      { name: "Leo", src: "https://randomuser.me/api/portraits/men/12.jpg" },
-    ],
-  },
-  {
-    id: "26qweuv4",
-    name: "Deputy sales personnel",
-    type: "CUSTOM",
-    date: "Apr 1, 2023",
-    status: "In Active",
-    users: [
-      { name: "Mia", src: "https://randomuser.me/api/portraits/women/13.jpg" },
-      { name: "Ned", src: "https://randomuser.me/api/portraits/men/14.jpg" },
-    ],
-  },
-  {
-    id: "m5gr84i9",
-    name: "Developeradmin",
-    type: "SYSTEM-CUSTOM",
-    date: "May 1, 2023",
-    status: "Active",
-    users: [
-      { name: "Ola", src: "https://randomuser.me/api/portraits/men/15.jpg" },
-      { name: "Pam", src: "https://randomuser.me/api/portraits/women/16.jpg" },
-    ],
-  },
-  {
-    id: "hqm5gr82",
-    name: "Developer-basic",
-    type: "SYSTEM-CUSTOM",
-    date: "Jun 1, 2023",
-    status: "Active",
-    users: [
-      { name: "Quinn", src: "https://randomuser.me/api/portraits/men/17.jpg" },
-      { name: "Rae", src: "https://randomuser.me/api/portraits/women/18.jpg" },
-    ],
-  },
-];
+import { columns } from "./userRolesColumns";
+import { useUserRoles } from "@/hooks/user";
 
 export function UserRolesTable() {
+  const { data: userRoles = [], isLoading } = useUserRoles();
+
   const table = useReactTable({
     data: userRoles,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col mt-5 gap-6">

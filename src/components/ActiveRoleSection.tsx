@@ -1,32 +1,38 @@
-import React, { useState } from "react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
-import { Users, Plus } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Checked from "@/assets/checked.svg";
-import Unchecked from "@/assets/unchecked.svg";
-
-const roles = [
-  {
-    value: "superadmin",
-    label: "Superadmin",
-    lastActive: "06/2023",
-    defaultChecked: true,
-  },
-  {
-    value: "developeradmin",
-    label: "Developeradmin",
-    lastActive: "01/2023",
-  },
-  {
-    value: "supportadmin",
-    label: "Supportadmin",
-    lastActive: "10/2022",
-  },
-];
+import { RoleRadioGroup } from "./RoleRadioGroup";
+import { useUsers } from "@/hooks/user";
+import { formatDate } from "@/lib/utils";
 
 export function ActiveRoleSection() {
-  const [selected, setSelected] = useState("superadmin");
+  const [selected, setSelected] = useState("");
+
+  const { data: userData = [], isLoading } = useUsers();
+  const user = userData[0];
+
+  useEffect(() => {
+    if (user?.usersRole?.length) {
+      const activeRole = user.usersRole.find(
+        (role) => role.status === "Active"
+      );
+      if (activeRole) {
+        setSelected(activeRole.role);
+      }
+    }
+  }, [user]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!user?.usersRole?.length) return <div>No roles found</div>;
+
+  const roles = user.usersRole.map((role) => ({
+    value: role.role,
+    label: role.role,
+    lastActive: role.updatedAt
+      ? formatDate(role.updatedAt, "monthYear")
+      : "N/A",
+    defaultChecked: role.status === "Active",
+  }));
 
   return (
     <section className="flex gap-3 md:gap-8 mb-8 max-sm:flex-col">
@@ -38,79 +44,11 @@ export function ActiveRoleSection() {
       </div>
 
       <div className="flex flex-col flex-1 gap-4">
-        <RadioGroup
-          value={selected}
-          onValueChange={setSelected}
-          className="flex flex-col gap-4"
-        >
-          {roles.map((role) => {
-            const isSelected = selected === role.value;
-
-            return (
-              <label
-                key={role.value}
-                className={cn(
-                  "flex items-start gap-4 border rounded-xl p-4 cursor-pointer transition-all",
-                  isSelected
-                    ? "border-[#D6BBFB] bg-[#F9F5FF] shadow-sm"
-                    : "border-[#EAECF0] bg-white"
-                )}
-              >
-                <RadioGroupItem value={role.value} className="mt-1 hidden" />
-
-                <div className="flex items-start gap-3 flex-1">
-                  <span className="bg-white border border-[#F2F4F7] text-[#667085] rounded-md p-2 px-3">
-                    <Users className="w-6 h-6" />
-                  </span>
-
-                  <div>
-                    <div
-                      className={cn(
-                        "text-sm font-medium mb-1",
-                        isSelected && "text-[#7F56D9]"
-                      )}
-                    >
-                      {role.label}
-                    </div>
-                    <div
-                      className={cn(
-                        "text-xs mb-1",
-                        isSelected ? "text-[#7F56D9]" : "text-muted-foreground"
-                      )}
-                    >
-                      Last active {role.lastActive}
-                    </div>
-                    <div className="flex gap-3 text-xs">
-                      <Button
-                        variant="link"
-                        className={cn(
-                          "p-0 h-max cursor-pointer",
-                          isSelected
-                            ? "text-[#7F56D9]"
-                            : "text-muted-foreground"
-                        )}
-                      >
-                        Set as default
-                      </Button>
-                      <Button
-                        variant="link"
-                        className="text-[#7F56D9] p-0 h-max cursor-pointer"
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                <img
-                  src={isSelected ? Checked : Unchecked}
-                  alt="Checked state icon"
-                  className="size-4"
-                />
-              </label>
-            );
-          })}
-        </RadioGroup>
+        <RoleRadioGroup
+          roles={roles}
+          selected={selected}
+          onChange={setSelected}
+        />
 
         <Button
           variant="link"
